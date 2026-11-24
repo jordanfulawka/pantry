@@ -12,6 +12,4 @@ app.get('/', (req: Request, res: Response) => {
 
 app.use('/auth', authRouter);
 
-app.listen(3000, () => {
-  console.log('app listening on port 3000');
-});
+export { app };
