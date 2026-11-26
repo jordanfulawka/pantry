@@ -1,8 +1,8 @@
 CREATE TABLE users (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   email TEXT UNIQUE NOT NULL,
-  name TEXT,
-  hashed_password TEXT,
+  name TEXT NOT NULL,
+  hashed_password TEXT NOT NULL,
   created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
@@ -12,4 +12,18 @@ CREATE TABLE household(
   name TEXT NOT NULL,
   created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+);
+
+CREATE TABLE household_members(
+  household_id UUID REFERENCES household(id),
+  users_id UUID REFERENCES users(id),
+  joined_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (household_id, user_id)
+);
+
+CREATE TABLE lists(
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  household_id UUID REFERENCES household(id),
+  created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
