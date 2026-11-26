@@ -1,6 +1,6 @@
 import { pool } from './pool';
 
-async function register({
+async function createUser({
   email,
   name,
   hashed_password,
@@ -17,6 +17,12 @@ async function register({
   return result.rows[0];
 }
 
-function login() {}
+async function getUserByEmail(email: string) {
+  const text = 'SELECT * FROM USERS where email = $1';
+  const values = [email];
 
-export { register };
+  const result = await pool.query(text, values);
+  return result.rows[0];
+}
+
+export { createUser, getUserByEmail };
